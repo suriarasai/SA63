@@ -22,6 +22,7 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+<<<<<<< HEAD
 /.metadata/
 
 ### Spring Boot Tooling & STS ###
@@ -67,3 +68,8 @@ application-dev.properties
 application-local.properties
 application-local.yml
 
+=======
+
+# Ignore metadata folder
+.metadata/*
+>>>>>>> 69ea82abbc36e9217715b930d2d4aec0fef08c1e
