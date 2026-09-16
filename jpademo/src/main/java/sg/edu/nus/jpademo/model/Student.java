@@ -40,6 +40,19 @@ public class Student {
 	public Student() {
 		super();
 	}
+	
+	public Student(Integer matricId, String name, String classEnrolled, LocalDate dob, String nickName, Double cgpa,
+			Integer enrollmentYear, Integer graduationYear) {
+		super();
+		this.matricId = matricId;
+		this.name = name;
+		this.classEnrolled = classEnrolled;
+		this.dob = dob;
+		this.nickName = nickName;
+		this.cgpa = cgpa;
+		this.enrollmentYear = enrollmentYear;
+		this.graduationYear = graduationYear;
+	}
 	public Integer getMatricId() {
 		return matricId;
 	}
