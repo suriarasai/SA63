@@ -1,52 +1,63 @@
 package com.example.demo.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 
 
 //class level annotation
 @Entity
+@Table(name = "book_table")
 public class Book {
 	//member variable annotation
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id; //MySQL will control this
-	private String title;
-	private String author;
-	private String ISBN;
-	private LocalDate dataOfPublication;
-	private Double price;
-	private String description;
-	private Genre genre;
+	//Auto injects a simple annotation
+	@Column(nullable = false, length = 200)
+    private String title;
+ 
+    @Column(nullable = false, length = 120)
+    private String author;
+ 
+    @Column(nullable = false, length = 17, updatable = false)
+    private String isbn;
+ 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Genre genre;
+ 
+    @Column(name = "published_on")
+    private LocalDate publishedOn;
+ 
+    @Column(precision = 8, scale = 2)
+    private BigDecimal price;
 	//constructor
-	public Book() {
-		super();
-	}
-	public Book(int id, String title, String author, String iSBN, LocalDate dataOfPublication, Double price,
-			String description) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.author = author;
-		ISBN = iSBN;
-		this.dataOfPublication = dataOfPublication;
-		this.price = price;
-		this.description = description;
-	}
-	public Book(String title, String author, String iSBN, LocalDate dataOfPublication, Double price,
-			String description) {
+	public Book(String title, String author, String isbn, Genre genre, LocalDate publishedOn, BigDecimal price) {
 		super();
 		this.title = title;
 		this.author = author;
-		ISBN = iSBN;
-		this.dataOfPublication = dataOfPublication;
+		this.isbn = isbn;
+		this.genre = genre;
+		this.publishedOn = publishedOn;
 		this.price = price;
-		this.description = description;
 	}
+	protected Book() {
+		super();
+	}
+	
 	// Getter Setter
+	
 	public int getId() {
 		return id;
 	}
@@ -65,39 +76,39 @@ public class Book {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	public String getISBN() {
-		return ISBN;
+	public String getIsbn() {
+		return isbn;
 	}
-	public void setISBN(String iSBN) {
-		ISBN = iSBN;
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
 	}
-	public LocalDate getDataOfPublication() {
-		return dataOfPublication;
+	public Genre getGenre() {
+		return genre;
 	}
-	public void setDataOfPublication(LocalDate dataOfPublication) {
-		this.dataOfPublication = dataOfPublication;
+	public void setGenre(Genre genre) {
+		this.genre = genre;
 	}
-	public Double getPrice() {
+	public LocalDate getPublishedOn() {
+		return publishedOn;
+	}
+	public void setPublishedOn(LocalDate publishedOn) {
+		this.publishedOn = publishedOn;
+	}
+	public BigDecimal getPrice() {
 		return price;
 	}
-	public void setPrice(Double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
 	}
 	// print the content of the entire
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", ISBN=" + ISBN + ", dataOfPublication="
-				+ dataOfPublication + ", price=" + price + ", description=" + description + "]";
+		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", isbn=" + isbn + ", genre=" + genre
+				+ ", publishedOn=" + publishedOn + ", price=" + price + "]";
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(ISBN);
+		return Objects.hash(isbn);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -108,11 +119,14 @@ public class Book {
 		if (getClass() != obj.getClass())
 			return false;
 		Book other = (Book) obj;
-		return Objects.equals(ISBN, other.ISBN);
+		return Objects.equals(isbn, other.isbn);
 	}
+    
 	
+
+
 	
-	//constructor
+
 
 	
 
