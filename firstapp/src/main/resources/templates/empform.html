@@ -1,0 +1,33 @@
+<html>
+
+<head xmlns="http://www.thymeleaf.org">
+	<link rel="stylesheet" href="../static/simple.css">
+	<title>Welcome</title>
+</head>
+
+<body>
+	<h1>Employee Form</h1>
+	<form action="#" th:object="${employee}" th:action="@{/employee/save}" method="post">>
+		<p>
+			<label>Name</label>
+			<input type="text" name="name"/>
+		</p>
+
+		<p>
+			<label>Pay</label>
+			<input type="text" name="pay" />
+		</p>
+
+		<p>
+			<label>title</label>
+			<input type="text" name="title" />
+		</p>
+		<p>
+			<input type="submit" name="SUBMIT" />
+		</p>
+		<p>
+			<input type="reset" name="RESET" />
+		</p>
+	</form>
+</body>
+</html>
