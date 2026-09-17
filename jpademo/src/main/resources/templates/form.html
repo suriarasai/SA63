@@ -1,8 +1,12 @@
-<head></head>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<title>Spring MVC Demo</title>
+<link rel="stylesheet" href="../static/style.css">
+</head>
 <body>
 	<h1>Hello Form Page</h1>
 	
-	<form>
+	<form action="#" th:object="${sampleform}" th:action="@{/listdata}" method="post">
 	  <p><strong>This is just a test form. It doesn't do anything.</strong></p>
 
 	  <p><select>
@@ -48,3 +52,4 @@
 	</form>
 	
 </body>
+</html>
