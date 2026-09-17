@@ -1,0 +1,287 @@
+/*
+ * styles.css
+ *
+ * Global stylesheet – minimal, utilitarian design.
+ * No CSS framework is used; all styles are hand-written.
+ *
+ * Design intent: clean government-form aesthetic.
+ * Monospace body font, sharp borders, no rounded corners.
+ * Colour palette: white background, dark charcoal text, one blue accent.
+ */
+
+/* ── CSS Reset & base ──────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  background: #f4f4f0;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
+
+/* ── App header ────────────────────────────────────────────────────────── */
+.app-header {
+  background: #1a1a1a;
+  color: #f4f4f0;
+  padding: 14px 24px;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  border-bottom: 3px solid #0057b8;
+}
+
+.app-title {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.app-subtitle {
+  font-size: 11px;
+  color: #aaa;
+  letter-spacing: 0.08em;
+}
+
+/* ── Main content area ─────────────────────────────────────────────────── */
+.app-main {
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 0 16px;
+}
+
+/* ── List container ────────────────────────────────────────────────────── */
+.list-container {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 24px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #1a1a1a;
+}
+
+.list-header h2 {
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ── Table ─────────────────────────────────────────────────────────────── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th, td {
+  text-align: left;
+  padding: 9px 12px;
+  border: 1px solid #ccc;
+}
+
+th {
+  background: #1a1a1a;
+  color: #f4f4f0;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+tr:nth-child(even) td {
+  background: #f9f9f7;  /* Zebra striping for readability */
+}
+
+tr:hover td {
+  background: #eef4ff;  /* Highlight row on hover */
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Form container ────────────────────────────────────────────────────── */
+.form-container {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 28px;
+  max-width: 520px;
+}
+
+.form-container h2 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #1a1a1a;
+}
+
+/* ── Form groups ───────────────────────────────────────────────────────── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+  color: #555;
+}
+
+.form-group input {
+  border: 1px solid #bbb;
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 13px;
+  background: #fafafa;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: #0057b8;
+  background: #fff;
+}
+
+/* Red border applied when a field has a validation error */
+.input-error {
+  border-color: #c0392b !important;
+}
+
+/* ── Validation error messages ─────────────────────────────────────────── */
+.error-msg {
+  color: #c0392b;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+/* ── Required field indicator ──────────────────────────────────────────── */
+.required {
+  color: #c0392b;
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────────── */
+.btn {
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #0057b8;
+  color: #fff;
+  border-color: #0057b8;
+}
+
+.btn-primary:hover {
+  background: #003f88;
+  border-color: #003f88;
+}
+
+.btn-secondary {
+  background: #fff;
+  color: #1a1a1a;
+  border-color: #1a1a1a;
+}
+
+.btn-secondary:hover {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.btn-danger {
+  background: #fff;
+  color: #c0392b;
+  border-color: #c0392b;
+}
+
+.btn-danger:hover {
+  background: #c0392b;
+  color: #fff;
+}
+
+/* ── Form action row ───────────────────────────────────────────────────── */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #ddd;
+}
+
+/* ── Feedback messages ─────────────────────────────────────────────────── */
+.msg {
+  padding: 10px 14px;
+  font-size: 12px;
+  margin-bottom: 16px;
+  border-left: 4px solid;
+}
+
+.msg-success {
+  background: #eafaf1;
+  border-color: #27ae60;
+  color: #1e8449;
+}
+
+.msg-error {
+  background: #fdf2f0;
+  border-color: #c0392b;
+  color: #c0392b;
+}
+
+/* ── Empty state ───────────────────────────────────────────────────────── */
+.empty-state {
+  color: #888;
+  font-style: italic;
+  padding: 20px 0;
+  font-size: 13px;
+}
+/* Format headers */
+h1 {
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 2.6rem;
+  margin-top: 3rem;
+}
+
+h3 {
+  font-size: 2rem;
+  margin-top: 3rem;
+}
+
+h4 {
+  font-size: 1.44rem;
+}
+
+h5 {
+  font-size: 1.15rem;
+}
+
+h6 {
+  font-size: 0.96rem;
+}
+
+p {
+  margin: 1.5rem 0;
+}
