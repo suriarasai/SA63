@@ -31,10 +31,12 @@ public class EmployeeController {
 	
 	@GetMapping("/list")
 	public String listEmployees(Model model) {
-		erepo.deleteAll();
-		Employee e1 = new Employee("Dilbert", LocalDate.of(1975, 1, 1), 3000.00, "software engineer", EmploymentType.PERMEMPLOYEE, Department.PRODUCT);
-		Employee e2 = new Employee("Alice", LocalDate.of(1978, 1, 1), 3000.00, "software engineer", EmploymentType.PERMEMPLOYEE, Department.PRODUCT);
-        erepo.save(e1); erepo.save(e2); 
+		// Its a silly way of prepopulating
+		// come from script (sql) files, Generatortype.IDENTITY not AUTO
+		//erepo.deleteAll();
+		//Employee e1 = new Employee("Dilbert", LocalDate.of(1975, 1, 1), 3000.00, "software engineer", EmploymentType.PERMEMPLOYEE, Department.PRODUCT);
+		//Employee e2 = new Employee("Alice", LocalDate.of(1978, 1, 1), 3000.00, "software engineer", EmploymentType.PERMEMPLOYEE, Department.PRODUCT);
+        //erepo.save(e1); erepo.save(e2); 
 		model.addAttribute("employees", erepo.findAll());
 		return "listemployees";
 	}
@@ -49,8 +51,7 @@ public class EmployeeController {
 	@PostMapping("/save")
 	public String saveEmployee(Model model, @ModelAttribute Employee employee) {
 		erepo.save(employee);
-		model.addAttribute("employees", erepo.findAll());
-		return "listemployees";
+		return "redirect:/employee/list";
 		
 	}
 

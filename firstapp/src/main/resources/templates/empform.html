@@ -1,7 +1,9 @@
 <html>
 
 <head xmlns="http://www.thymeleaf.org">
-	<link rel="stylesheet" href="../static/simple.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
 	<title>Welcome</title>
 </head>
 
@@ -10,7 +12,7 @@
 	<form action="#" th:object="${employee}" th:action="@{/employee/save}" method="post">>
 		<p>
 			<label>Name</label>
-			<input type="text" name="name"/>
+			<input type="text" name="name" />
 		</p>
 
 		<p>
@@ -23,6 +25,32 @@
 			<input type="text" name="title" />
 		</p>
 		<p>
+			<input type="date" id="doj" th:field="*{doj}" />
+		</p>
+		<p>
+		<p>
+			<select th:field="*{empType}">
+			    <!-- T(package.EmploymentType).values() loops through your enum constants -->
+			    <option th:each="type : ${T(sg.edu.nus.firstapp.model.EmploymentType).values()}" 
+			            th:value="${type}" 
+			            th:text="${type.name()}">
+			    </option>
+			</select>
+			
+		</p>
+		<p>
+		<p><select name="department">
+				<option value="HR" selected>HR</option>
+				<option value="FINANCE">FINANCE</option>
+				<option value="ADMIN">ADMIN</option>
+				<option value="BI">BI</option>
+				<option value="SALES">SALES</option>
+				<option value="PRODUCT">PRODUCT</option>
+				<option value="IT">IT</option>
+				<option value="MARCOMM">MARCOMM</option>
+			</select></p>
+		</p>
+		<p>
 			<input type="submit" name="SUBMIT" />
 		</p>
 		<p>
@@ -30,4 +58,5 @@
 		</p>
 	</form>
 </body>
+
 </html>

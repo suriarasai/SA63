@@ -1,10 +1,14 @@
 package sg.edu.nus.firstapp.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumeratedValue;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,19 +17,19 @@ import jakarta.persistence.Id;
 public class Employee {
 	// Here Spring MVC create the id
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int empId;
 	
 	private String name;
-	
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private LocalDate doj;
 	
 	private Double pay;
 	
 	private String title;
-	
+	@Enumerated(EnumType.ORDINAL)
 	private EmploymentType empType;
-	
+	@Enumerated(EnumType.STRING)
 	private Department department;
 
 	public Employee(int empId, String name, LocalDate doj, Double pay, String title, EmploymentType empType,
