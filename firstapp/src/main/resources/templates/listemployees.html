@@ -9,32 +9,43 @@
 
 <body>
 	<h1>Listing Page</h1>
-	<p>I want my list</p>
+	<div>
+		<h2>Create</h2>
+		<p><a href="empform.html" th:href="@{/employee/showempform}" th:utext="#{employee.page.add}">label</a>
+		</p>
+	</div>
+	<div>
+		<h2>List Employees</h2>
 
-	<table class="" th:if="${not #lists.isEmpty(employees)}">
-		<thead>
-			<tr>
-				<th>Employee ID</th>
-				<th>Name</th>
-				<th>Date of Joining</th>
-				<th>Pay</th>
-				<th>Title</th>
-				<th>EmpType</th>
-				<th>Department</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="employee:${employees}">
-				<td th:text="${employee.empId}"></td>
-				<td th:text="${employee.name}"></td>
-				<td th:text="${employee.doj}"></td>
-				<td th:text="${employee.pay}"></td>
-				<td th:text="${employee.title}"></td>
-				<td th:text="${employee.empType}"></td>
-				<td th:text="${employee.department}"></td>
-			</tr>
-		</tbody>
-	</table>
+		<table class="" th:if="${not #lists.isEmpty(employees)}">
+			<thead>
+				<tr>
+					<th>Employee ID</th>
+					<th>Name</th>
+					<th>Date of Joining</th>
+					<th>Pay</th>
+					<th>Title</th>
+					<th>EmpType</th>
+					<th>Department</th>
+					<th>Edit</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="employee:${employees}">
+					<td th:text="${employee.empId}"></td>
+					<td th:text="${employee.name}"></td>
+					<td th:text="${employee.doj}"></td>
+					<td th:text="${employee.pay}"></td>
+					<td th:text="${employee.title}"></td>
+					<td th:text="${employee.empType}"></td>
+					<td th:text="${employee.department}"></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
 
 </html>
