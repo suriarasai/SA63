@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -43,10 +44,15 @@ public class EmployeeController {
 	
 	@GetMapping("/showempform")
 	public String showEmployeeForm(Model model) {
-		Employee employee = new Employee();
-		model.addAttribute("employee", employee);
+		model.addAttribute("employee", new Employee());
 		return "empform";
 	}
+	@GetMapping("/updateemp/{empId}")
+	public String updateEmployeeForm(Model model, @PathVariable("empId") Integer empId) {
+		model.addAttribute("employee", erepo.findById(empId).get());
+		return "empform";
+	}
+	
 	
 	@PostMapping("/save")
 	public String saveEmployee(Model model, @ModelAttribute Employee employee) {
@@ -54,5 +60,13 @@ public class EmployeeController {
 		return "redirect:/employee/list";
 		
 	}
+	
+	  
+	  @GetMapping("/delete/{empId}")
+	  public String deleteMethod(Model model, @PathVariable("empId") Integer empId) {
+		erepo.delete(erepo.findById(empId).get());
+		return "forward:/employee/list";
+	  }
+
 
 }

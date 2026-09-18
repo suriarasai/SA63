@@ -4,44 +4,60 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-	
+
 	<title>Welcome</title>
 </head>
 
 <body>
 	<h1>Employee Form</h1>
-	
-	<form action="#" th:object="${employee}" th:action="@{/employee/save}" method="post">>
+
+	<form th:object="${employee}" th:action="@{/employee/save}" method="post">
 		<p>
+
+		<fieldset>
 			<label>Name</label>
-			<input type="text" name="name" />
+			<input type="text" name="name" th:field="*{name}" />
+		</fieldset>
 		</p>
 
 		<p>
+		<fieldset>
 			<label>Pay</label>
-			<input type="text" name="pay" />
+			<input type="text" name="pay" th:field="*{pay}" />
+		</fieldset>
 		</p>
 
 		<p>
+		<fieldset>
 			<label>title</label>
-			<input type="text" name="title" />
+			<input type="text" name="title" th:field="*{title}" />
+		</fieldset>
 		</p>
 		<p>
+		<fieldset>
+			<label>doj</label>
 			<input type="date" id="doj" th:field="*{doj}" />
+		</fieldset>
+
+
 		</p>
 		<p>
-		<p>
+		<fieldset>
+			<label>Employee Type</label>
 			<select th:field="*{empType}">
-			    <!-- T(package.EmploymentType).values() loops through your enum constants -->
-			    <option th:each="type : ${T(sg.edu.nus.firstapp.model.EmploymentType).values()}" 
-			            th:value="${type}" 
-			            th:text="${type.name()}">
-			    </option>
+				<!-- T(package.EmploymentType).values() loops through your enum constants -->
+				<option th:each="type : ${T(sg.edu.nus.firstapp.model.EmploymentType).values()}" th:value="${type}"
+					th:text="${type.name()}">
+				</option>
 			</select>
-			
+		</fieldset>
+
 		</p>
 		<p>
-		<p><select name="department">
+		<p>
+		<fieldset>
+			<label>Department</label>
+			<select name="department" th:field="*{department}">
 				<option value="HR" selected>HR</option>
 				<option value="FINANCE">FINANCE</option>
 				<option value="ADMIN">ADMIN</option>
@@ -50,7 +66,9 @@
 				<option value="PRODUCT">PRODUCT</option>
 				<option value="IT">IT</option>
 				<option value="MARCOMM">MARCOMM</option>
-			</select></p>
+			</select>
+		</fieldset>
+		</p>
 		</p>
 		<p>
 			<input type="submit" name="SUBMIT" />

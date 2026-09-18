@@ -40,8 +40,8 @@
 					<td th:text="${employee.title}"></td>
 					<td th:text="${employee.empType}"></td>
 					<td th:text="${employee.department}"></td>
-					<td></td>
-					<td></td>
+					<td><a href="empform.html" th:href="@{/employee/updateemp/}+${employee.empId}" th:utext="#{employee.page.update}"></a></td>
+					<td><a href="empform.html" th:href="@{/employee/delete/}+${employee.empId}" th:utext="#{employee.page.delete}"/></td>
 				</tr>
 			</tbody>
 		</table>
