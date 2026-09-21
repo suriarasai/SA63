@@ -31,8 +31,8 @@ public class BiProject {
 	private Department department;
 	private Double budjet;
 	// BiProject
-	@ManyToMany(mappedBy = "uniProjectsList")
-	private List<BiEmployee> biEmployees;
+	@ManyToMany(mappedBy = "biProjectsList")
+	private List<BiEmployee> biEmployee;
 
 
 }

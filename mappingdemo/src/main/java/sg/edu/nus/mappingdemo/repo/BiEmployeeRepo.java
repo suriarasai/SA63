@@ -1,4 +1,4 @@
-package sg.edu.nus.mappingdemo.repo.uni;
+package sg.edu.nus.mappingdemo.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

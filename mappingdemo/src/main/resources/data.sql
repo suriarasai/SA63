@@ -95,7 +95,7 @@ INSERT INTO bi_project (project_id, name, department, budjet) VALUES
     (3, 'Hiring Freeze Portal', 0,  45000.00),   -- HR
     (4, 'Cloud Cost Cutter',    6,  80000.00);   -- IT (nobody has joined yet)
  
-INSERT INTO bi_employee (emp_id, name, doj, pay, title, emp_type, department, uni_cubicle_cubicle_id) VALUES
+INSERT INTO bi_employee (emp_id, name, doj, pay, title, emp_type, department, bi_cubicle_cubicle_id) VALUES
     (1, 'Dilbert', '1990-01-20', 5000.00, 'software engineer', 0, 'PRODUCT', 1),
     (2, 'Alice',   '1989-01-01', 5500.00, 'software engineer', 0, 'PRODUCT', 2),
     (3, 'Wally',   '1985-06-15', 4800.00, 'software engineer', 0, 'PRODUCT', 3),
@@ -104,7 +104,7 @@ INSERT INTO bi_employee (emp_id, name, doj, pay, title, emp_type, department, un
     (6, 'Dogbert', '2010-03-03', 9000.00, 'consultant',        2, 'FINANCE', NULL);
  
 -- Gadget -> employee: the FK now lives directly on the gadget (no join table)
-INSERT INTO bi_gadget (gadget_id, name, description, biemployee_emp_id) VALUES
+INSERT INTO bi_gadget (gadget_id, name, description, bi_employee_emp_id) VALUES
     (1,  'ThinkPad X1',              'Development laptop',         1),
     (2,  'Oscilloscope',             'Hardware debugging',         1),
     (3,  'Pocket Protector',         'Standard engineering issue', 1),
@@ -119,7 +119,7 @@ INSERT INTO bi_gadget (gadget_id, name, description, biemployee_emp_id) VALUES
 -- Employee <-> projects: single join table owned by BiEmployee.
 -- Because the association is now bidirectional, the employee column is named after
 -- the INVERSE field (BiProject.biEmployees) -> bi_employees_emp_id, not bi_employee_emp_id.
-INSERT INTO bi_employee_uni_projects_list (bi_employees_emp_id, uni_projects_list_project_id) VALUES
+INSERT INTO bi_employee_bi_projects_list (bi_employee_emp_id, bi_projects_list_project_id) VALUES
     (1, 1), (1, 2),
     (2, 1),
     (4, 1), (4, 3),

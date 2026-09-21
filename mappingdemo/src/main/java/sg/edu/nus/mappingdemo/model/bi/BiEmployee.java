@@ -51,7 +51,7 @@ public class BiEmployee {
 	private BiCubicle biCubicle;
     // BiEmployee
     @OneToMany(mappedBy = "biEmployee", fetch = FetchType.LAZY)
-    private List<BiGadget> uniGadgetsList;
+    private List<BiGadget> biGadgetsList;
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<BiProject> uniProjectsList;
+    private List<BiProject> biProjectsList;
 }
