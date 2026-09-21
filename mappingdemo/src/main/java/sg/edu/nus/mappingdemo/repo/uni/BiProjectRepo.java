@@ -2,6 +2,8 @@ package sg.edu.nus.mappingdemo.repo.uni;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BiProjectRepo extends JpaRepository<BiProjectRepo, Integer> {
+import sg.edu.nus.mappingdemo.model.bi.BiProject;
+
+public interface BiProjectRepo extends JpaRepository<BiProject, Integer> {
 
 }
