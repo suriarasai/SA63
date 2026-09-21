@@ -24,6 +24,6 @@ public class BiGadget {
 	private String name;
 	private String description;
 	@ManyToOne
-	private BiEmployee biemployee;
+	private BiEmployee biEmployee;
 
 }

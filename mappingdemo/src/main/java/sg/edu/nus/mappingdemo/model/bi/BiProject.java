@@ -30,7 +30,8 @@ public class BiProject {
 	private String name;
 	private Department department;
 	private Double budjet;
-	@ManyToMany
+	// BiProject
+	@ManyToMany(mappedBy = "uniProjectsList")
 	private List<BiEmployee> biEmployees;
 
 

@@ -48,10 +48,10 @@ public class BiEmployee {
 	@Enumerated(EnumType.STRING)
 	private Department department;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private BiCubicle uniCubicle;
-    @OneToMany(fetch = FetchType.LAZY)
-	private List<BiGadget> uniGadgetsList;
+	private BiCubicle biCubicle;
+    // BiEmployee
+    @OneToMany(mappedBy = "biEmployee", fetch = FetchType.LAZY)
+    private List<BiGadget> uniGadgetsList;
     @ManyToMany(fetch = FetchType.LAZY)
     private List<BiProject> uniProjectsList;
-
 }

@@ -26,7 +26,9 @@ public class BiCubicle {
 	private String name;
 	private String location;
 	private String description;
-	@OneToOne
+	// BiCubicle
+	@OneToOne(mappedBy = "biCubicle")
 	private BiEmployee biEmployee;
+
 
 }
