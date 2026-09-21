@@ -1,4 +1,4 @@
-package sg.edu.nus.mappingdemo.model.uni;
+package sg.edu.nus.mappingdemo.model.bi;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -34,7 +34,7 @@ import sg.edu.nus.mappingdemo.model.EmploymentType;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class UniEmployee {
+public class BiEmployee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int empId;	
@@ -48,10 +48,10 @@ public class UniEmployee {
 	@Enumerated(EnumType.STRING)
 	private Department department;
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private UniCubicle uniCubicle;
+	private BiCubicle uniCubicle;
     @OneToMany(fetch = FetchType.LAZY)
-	private List<UniGadget> uniGadgetsList;
+	private List<BiGadget> uniGadgetsList;
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<UniProject> uniProjectsList;
+    private List<BiProject> uniProjectsList;
 
 }

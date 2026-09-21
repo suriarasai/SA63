@@ -1,6 +1,7 @@
-package sg.edu.nus.mappingdemo.model.uni;
+package sg.edu.nus.mappingdemo.model.bi;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
@@ -22,13 +23,15 @@ import sg.edu.nus.mappingdemo.model.Department;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class UniProject {
+public class BiProject {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int projectId;
 	private String name;
 	private Department department;
 	private Double budjet;
+	@ManyToMany
+	private List<BiEmployee> biEmployees;
 
 
 }

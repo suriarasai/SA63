@@ -1,4 +1,4 @@
-package sg.edu.nus.mappingdemo.model.uni;
+package sg.edu.nus.mappingdemo.model;
 
 public enum EmploymentType {
 	PERMEMPLOYEE,

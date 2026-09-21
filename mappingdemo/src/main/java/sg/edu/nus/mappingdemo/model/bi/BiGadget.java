@@ -1,20 +1,15 @@
-package sg.edu.nus.mappingdemo.model.uni;
-
-import java.util.HashSet;
-import java.util.Set;
+package sg.edu.nus.mappingdemo.model.bi;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import sg.edu.nus.mappingdemo.model.Department;
 
 @Entity
 @Getter
@@ -22,13 +17,13 @@ import sg.edu.nus.mappingdemo.model.Department;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class UniProject {
+public class BiGadget {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int projectId;
+	private Integer gadgetId;
 	private String name;
-	private Department department;
-	private Double budjet;
-
+	private String description;
+	@ManyToOne
+	private BiEmployee biemployee;
 
 }
