@@ -1,0 +1,36 @@
+<html>
+
+<head xmlns="http://www.thymeleaf.org">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+
+	<title>Login Page</title>
+</head>
+
+<body>
+	<h1>Login Form</h1>
+	<form th:object="${loginuser}" th:action="@{/authenticate}" method="post">
+		<p>
+		<fieldset>
+			<label>User Name</label>
+			<input type="text" name="username" th:field="*{username}" />
+		</fieldset>
+		</p>
+
+		<p>
+		<fieldset>
+			<label>Password</label>
+			<input type="password" name="password" th:field="*{password}" />
+		</fieldset>
+		</p>
+		<p>
+			<input type="submit" name="SUBMIT" />
+		</p>
+		<p>
+			<input type="reset" name="RESET" />
+		</p>
+	</form>
+</body>
+
+</html>

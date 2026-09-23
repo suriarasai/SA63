@@ -25,10 +25,6 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeRepo erepo;
 	
-	@GetMapping("/welcome")
-	public String showWelcome() {
-		return "welcome";
-	}
 	
 	@GetMapping("/list")
 	public String listEmployees(Model model) {

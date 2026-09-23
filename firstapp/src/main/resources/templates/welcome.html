@@ -2,11 +2,12 @@
 	<head >
 		<link rel="stylesheet" href="../static/simple.css">
 		<title>Welcome</title>
+		<div th:insert="~{fragments/header :: head}"></div>
 	</head>
     <body>
 		<h1>Welcome Page</h1>
-		<p>This is some nonsense that i am typing after a heavy meal. I am sleep coding.</p>
+		<p>SA63 is ready to build applications</p>
 		<p th:utext="#{secret.message}" ></p>
-		
+		<div th:insert="~{fragments/footer :: copy}"></div>
 	</body>
 </html>
