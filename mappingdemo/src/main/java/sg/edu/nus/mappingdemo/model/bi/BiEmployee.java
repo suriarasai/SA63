@@ -17,6 +17,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,8 +30,7 @@ import sg.edu.nus.mappingdemo.model.EmploymentType;
  * Unidirectional Mapping - Employee is the owner for all associations
  */
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString

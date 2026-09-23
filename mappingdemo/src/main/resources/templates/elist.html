@@ -1,0 +1,45 @@
+<html>
+	<head xmlns="http://www.thymeleaf.org">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+		<title>List Page</title>
+	</head>
+<body>
+	<div>
+		<ul>
+			<li th:utext="#{welcome.message}"/>
+						<li th:utext="#{welcome.somewisewords}"/>	
+
+		</ul>
+		
+	</div>
+	<div>
+	<table class="" th:if="${not #lists.isEmpty(elist)}">
+		<thead>
+			<tr>
+				<th>Employee ID</th>
+				<th>Name</th>
+				<th>Date of Joining</th>
+				<th>Pay</th>
+				<th>Title</th>
+				<th>EmpType</th>
+				<th>Department</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="employee:${elist}">
+				<td th:text="${employee.empId}"></td>
+				<td th:text="${employee.name}"></td>
+				<td th:text="${employee.doj}"></td>
+				<td th:text="${employee.pay}"></td>
+				<td th:text="${employee.title}"></td>
+				<td th:text="${employee.empType}"></td>
+				<td th:text="${employee.department}"></td>
+			</tr>
+		</tbody>
+	</table>
+		</div>
+</body>
+</html>
