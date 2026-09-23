@@ -1,0 +1,13 @@
+package sg.edu.nus.firstapp.repo;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import sg.edu.nus.firstapp.model.Product;
+
+public interface ProductRepo extends JpaRepository<Product, Long> {
+
+}
+

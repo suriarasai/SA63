@@ -7,11 +7,14 @@
 	<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
 	<div th:fragment="head">
 		<nav>
-			<a href="/">Home</a>
-			<a href="/about">About</a>
-			<a href="/welcome">Welcome</a>
+			<a class="button" href="/">Home</a>
+			<a class="button" href="/about">About</a>
+			<a class="button" href="/welcome">Welcome</a>
 
 		</nav>
+		<div >
+		  <p class="button" th:if="${session.loginuser}" th:text="${session.loginuser.username}"></p>
+		</div>
 	</div>
 </head>
 
