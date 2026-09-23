@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+	<title>User validator demo</title>
+</head>
+
+<body>
+
+	<h1>Register a user</h1>
+
+	<p class="saved" th:if="${saved}" th:text="${saved}"></p>
+	<div>
+		<form th:action="@{/users}" th:object="${user}" method="post" novalidate>
+
+			<label for="name">Name</label>
+			<input id="name" th:field="*{name}" th:errorclass="invalid">
+			<div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+			<label for="email">Email</label>
+			<input id="email" th:field="*{email}" th:errorclass="invalid">
+			<div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+			<label for="phoneNumber">Phone number</label>
+			<input id="phoneNumber" th:field="*{phoneNumber}" th:errorclass="invalid">
+			<div class="error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+			<div class="hint">8 digits, first digit must be 9 or 8 or7 ;optional leading +65. Checked by @ValidPhone.</div>
+			<button type="submit">Save user</button>
+		</form>
+	</div>
+	<div>
+		<table th:if="${!users.isEmpty()}">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Phone</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="u : ${users}">
+					<td th:text="${u.id}"></td>
+					<td th:text="${u.name}"></td>
+					<td th:text="${u.email}"></td>
+					<td th:text="${u.phoneNumber}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>

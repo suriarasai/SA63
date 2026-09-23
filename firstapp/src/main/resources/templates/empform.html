@@ -12,8 +12,8 @@
 	<h1>Employee Form</h1>
 
 	<form th:object="${employee}" th:action="@{/employee/save}" method="post">
+		<input type="hidden" name="empId" th:field="*{empId}" />
 		<p>
-
 		<fieldset>
 			<label>Name</label>
 			<input type="text" name="name" th:field="*{name}" />
