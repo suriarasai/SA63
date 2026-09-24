@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('Gadgets')}"></head>
+<body>
+	<header th:replace="~{fragments :: header('gadgets')}"></header>
+	<main>
+		<th:block th:replace="~{fragments :: messages}"></th:block>
+		<h1>Gadgets</h1>
+
+		<details th:open="${showAddForm}">
+			<summary>+ Add gadget</summary>
+			<form method="post" th:action="@{/gadgets}" th:object="${gadget}">
+				<label for="name">Name *</label>
+				<input th:field="*{name}">
+				<mark th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></mark>
+
+				<label for="description">Description</label>
+				<input th:field="*{description}">
+
+				<label for="ownerId">Owner</label>
+				<select id="ownerId" name="ownerId">
+					<option value="">--- unassigned ---</option>
+					<option th:each="e : ${employees}" th:value="${e.empId}" th:text="${e.name}"
+						th:selected="${e.empId == ownerId}">Dilbert</option>
+				</select>
+				<br>
+				<button type="submit">Add gadget</button>
+			</form>
+		</details>
+
+		<!-- Gadget owns the FK: changing the owner updates gadget.emp_id only -->
+		<figure>
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Owner (reassign)</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="g : ${gadgets}">
+						<td th:text="${g.gadgetId}">1</td>
+						<td th:text="${g.name}">ThinkPad X1</td>
+						<td th:text="${g.description}">Development laptop</td>
+						<td>
+							<form class="inline" method="post" th:action="@{/gadgets/{id}/owner(id=${g.gadgetId})}">
+								<select name="empId" th:attr="aria-label='Owner of ' + ${g.name}">
+									<option value="">--- unassigned ---</option>
+									<option th:each="e : ${employees}" th:value="${e.empId}" th:text="${e.name}"
+										th:selected="${g.employee != null and g.employee.empId == e.empId}">Dilbert
+									</option>
+								</select>
+								<button type="submit">Save</button>
+							</form>
+						</td>
+						<td>
+							<a th:if="${g.employee != null}" th:href="@{/employees/{id}(id=${g.employee.empId})}">View
+								owner</a>
+							<form class="inline" method="post" th:action="@{/gadgets/{id}/delete(id=${g.gadgetId})}"
+								onsubmit="return confirm('Delete this gadget?')">
+								<button type="submit">Delete</button>
+							</form>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(gadgets)}">
+						<td colspan="5">No gadgets.</td>
+					</tr>
+				</tbody>
+			</table>
+		</figure>
+	</main>
+	<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+
+</html>

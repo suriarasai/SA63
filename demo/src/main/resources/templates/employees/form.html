@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments :: head(${employee.empId == null} ? 'New employee' : 'Edit employee')}"></head>
+<body>
+<header th:replace="~{fragments :: header('employees')}"></header>
+<main>
+	<th:block th:replace="~{fragments :: messages}"></th:block>
+	<p><a th:href="@{/employees}">Employees</a></p>
+	<h1 th:text="${employee.empId == null} ? 'New employee' : 'Edit ' + ${employee.name}">New employee</h1>
+
+	<form method="post" th:object="${employee}"
+		  th:action="${employee.empId == null} ? @{/employees/new} : @{/employees/{id}/edit(id=${employee.empId})}">
+		<fieldset>
+			<legend>Details</legend>
+			<label for="name">Name *</label>
+			<input th:field="*{name}" placeholder="Full name">
+			<mark th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></mark>
+
+			<label for="title">Title</label>
+			<input th:field="*{title}" placeholder="e.g. software engineer">
+
+			<label for="doj">Date joined</label>
+			<input th:field="*{doj}" placeholder="dd-MM-yyyy">
+			<mark th:if="${#fields.hasErrors('doj')}" th:errors="*{doj}"></mark>
+
+			<label for="pay">Pay</label>
+			<input th:field="*{pay}" inputmode="decimal" placeholder="0.00">
+			<mark th:if="${#fields.hasErrors('pay')}" th:errors="*{pay}"></mark>
+
+			<label for="department">Department</label>
+			<select th:field="*{department}">
+				<option value="">--- choose ---</option>
+				<option th:each="d : ${departments}" th:value="${d}" th:text="${d}"></option>
+			</select>
+
+			<label for="empType">Employment type</label>
+			<select th:field="*{empType}">
+				<option value="">-- choose ---</option>
+				<option th:each="t : ${employmentTypes}" th:value="${t}" th:text="${t}"></option>
+			</select>
+		</fieldset>
+
+		<fieldset>
+			<legend>Cubicle </legend>
+			<label for="cubicleId">Cubicle</label>
+			<select id="cubicleId" name="cubicleId">
+				<option value="">--- none ---</option>
+				<option th:each="c : ${cubicleChoices}" th:value="${c.cubicleId}"
+						th:text="${c.name} + ' · ' + ${c.location}"
+						th:selected="${c.cubicleId == selectedCubicleId}">C-301 · Level 3, Block C</option>
+			</select>
+			<p><small>Only free cubicles (and the current one) are listed. Gadgets and projects are managed on the employee page.</small></p>
+		</fieldset>
+
+		<button type="submit">Save</button>
+		<a th:href="${employee.empId == null} ? @{/employees} : @{/employees/{id}(id=${employee.empId})}">Cancel</a>
+	</form>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

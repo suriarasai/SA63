@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('Projects')}"></head>
+
+<body>
+	<header th:replace="~{fragments :: header('projects')}"></header>
+	<main>
+		<th:block th:replace="~{fragments :: messages}"></th:block>
+		<h1>Projects </h1>
+		<p><a class="button" th:href="@{/projects/new}">+ New project</a></p>
+		<figure>
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Department</th>
+						<th>Budget</th>
+						<th>Members</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="p : ${projects}">
+						<td th:text="${p.projectId}">1</td>
+						<td><a th:href="@{/projects/{id}(id=${p.projectId})}" th:text="${p.name}">Gruntmaster 6000</a>
+						</td>
+						<td th:text="${p.department}">PRODUCT</td>
+						<td
+							th:text="${p.budget != null} ? ${#numbers.formatDecimal(p.budget, 1, 'COMMA', 2, 'POINT')} : '—'">
+							250,000.00</td>
+						<td>
+							<span th:each="m, st : ${p.employees}"
+								th:text="${m.name} + (${st.last} ? '' : ', ')">Dilbert</span>
+							<span th:if="${#lists.isEmpty(p.employees)}">— no members —</span>
+						</td>
+						<td>
+							<a th:href="@{/projects/{id}(id=${p.projectId})}">Manage team</a> ·
+							<a th:href="@{/projects/{id}/edit(id=${p.projectId})}">Edit</a> ·
+							<form class="inline" method="post" th:action="@{/projects/{id}/delete(id=${p.projectId})}"
+								onsubmit="return confirm('Delete this project? Members will be removed from it.')">
+								<button type="submit">Delete</button>
+							</form>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(projects)}">
+						<td colspan="6">No projects.</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th colspan="3">Total budget</th>
+						<th th:text="${#numbers.formatDecimal(totalBudget, 1, 'COMMA', 2, 'POINT')}">495,000.00</th>
+						<th colspan="2"></th>
+					</tr>
+				</tfoot>
+			</table>
+		</figure>
+	</main>
+	<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+
+</html>

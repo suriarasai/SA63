@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head(${employee.name})}"></head>
+
+<body>
+	<header th:replace="~{fragments :: header('employees')}"></header>
+	<main>
+		<th:block th:replace="~{fragments :: messages}"></th:block>
+		<p><a th:href="@{/employees}">Employees</a></p>
+		<h1 th:text="${employee.name} + ' #' + ${employee.empId}">Dilbert #1</h1>
+		<div>
+			<a class="button" th:href="@{/employees/{id}/edit(id=${employee.empId})}">Edit</a>
+			<form class="inline" method="post" th:action="@{/employees/{id}/delete(id=${employee.empId})}"
+				onsubmit="return confirm('Delete this employee? Their cubicle and gadgets will be freed.')">
+				<button type="submit">Delete</button>
+			</form>
+		</div>
+
+		<figure>
+			<table>
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Department</th>
+						<th>Type</th>
+						<th>Date joined</th>
+						<th>Pay</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td th:text="${employee.title} ?: '—'">software engineer</td>
+						<td th:text="${employee.department} ?: '—'">PRODUCT</td>
+						<td th:text="${employee.empType} ?: '—'">PERMEMPLOYEE</td>
+						<td th:text="${employee.doj != null} ? ${#temporals.format(employee.doj, 'dd-MM-yyyy')} : '—'">
+							20-01-1990</td>
+						<td
+							th:text="${employee.pay != null} ? ${#numbers.formatDecimal(employee.pay, 1, 'COMMA', 2, 'POINT')} : '—'">
+							5,000.00</td>
+					</tr>
+				</tbody>
+			</table>
+		</figure>
+
+		<div class="split">
+			<!-- 1:1 Cubicle. Employee is the owner -->
+			<article>
+				<h3>Cubicle <code>1—1</code></h3>
+				<dl th:if="${employee.cubicle != null}">
+					<dt>Name</dt>
+					<dd th:text="${employee.cubicle.name}">C-101</dd>
+					<dt>Location</dt>
+					<dd th:text="${employee.cubicle.location}">Level 1, Block A</dd>
+					<dt>Description</dt>
+					<dd th:text="${employee.cubicle.description}">Window seat</dd>
+				</dl>
+				<p th:if="${employee.cubicle == null}">No cubicle assigned.</p>
+
+				<form method="post" th:action="@{/employees/{id}/cubicle(id=${employee.empId})}"
+					th:if="${!#lists.isEmpty(freeCubicles)}">
+					<label for="cubicleId"
+						th:text="${employee.cubicle != null} ? 'Move to a free cubicle' : 'Assign a free cubicle'">Move
+						to a free cubicle</label>
+					<select id="cubicleId" name="cubicleId" required>
+						<option th:each="c : ${freeCubicles}" th:value="${c.cubicleId}"
+							th:text="${c.name} + ' · ' + ${c.location}">C-301 · Level 3, Block C</option>
+					</select>
+					<button type="submit" th:text="${employee.cubicle != null} ? 'Move' : 'Assign'">Move</button>
+				</form>
+				<p th:if="${#lists.isEmpty(freeCubicles)}"><small>No free cubicles.</small></p>
+
+				<form method="post" th:action="@{/employees/{id}/cubicle/release(id=${employee.empId})}"
+					th:if="${employee.cubicle != null}">
+					<button type="submit">Release cubicle</button>
+				</form>
+			</article>
+
+			<div>
+				<!-- 1:N Gadgets. Gadget is the owner -->
+				<article>
+					<h3>Gadgets</h3>
+					<figure>
+						<table>
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Name</th>
+									<th>Description</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="g : ${employee.gadgets}">
+									<td th:text="${g.gadgetId}">1</td>
+									<td th:text="${g.name}">ThinkPad X1</td>
+									<td th:text="${g.description}">Development laptop</td>
+									<td>
+										<form class="inline" method="post"
+											th:action="@{/employees/{id}/gadgets/{gid}/unassign(id=${employee.empId},gid=${g.gadgetId})}">
+											<button type="submit">Unassign</button>
+										</form>
+									</td>
+								</tr>
+								<tr th:if="${#lists.isEmpty(employee.gadgets)}">
+									<td colspan="4">No gadgets issued.</td>
+								</tr>
+							</tbody>
+						</table>
+					</figure>
+					<form method="post" th:action="@{/employees/{id}/gadgets(id=${employee.empId})}"
+						th:if="${!#lists.isEmpty(unassignedGadgets)}">
+						<div class="fields">
+							<label>Issue gadget
+								<select name="gadgetId" required>
+									<option th:each="g : ${unassignedGadgets}" th:value="${g.gadgetId}"
+										th:text="${g.name}">Gadget</option>
+								</select>
+							</label>
+							<button type="submit">Issue</button>
+						</div>
+					</form>
+					<p th:if="${#lists.isEmpty(unassignedGadgets)}"><small>
+							Every gadget is issued. Add or unassign one on the <a th:href="@{/gadgets}">Gadgets</a>
+							page.</small></p>
+				</article>
+
+				<!-- N:M Projects. Employee is the owner -->
+				<article>
+					<h3>Projects</h3>
+					<figure>
+						<table>
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Name</th>
+									<th>Department</th>
+									<th>Budget</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="p : ${employee.projects}">
+									<td th:text="${p.projectId}">1</td>
+									<td><a th:href="@{/projects/{id}(id=${p.projectId})}"
+											th:text="${p.name}">Gruntmaster 6000</a></td>
+									<td th:text="${p.department}">PRODUCT</td>
+									<td
+										th:text="${p.budget != null} ? ${#numbers.formatDecimal(p.budget, 1, 'COMMA', 2, 'POINT')} : '—'">
+										250,000.00</td>
+									<td>
+										<form class="inline" method="post"
+											th:action="@{/employees/{id}/projects/{pid}/leave(id=${employee.empId},pid=${p.projectId})}">
+											<button type="submit">Leave</button>
+										</form>
+									</td>
+								</tr>
+								<tr th:if="${#lists.isEmpty(employee.projects)}">
+									<td colspan="5">Not on any project.</td>
+								</tr>
+							</tbody>
+						</table>
+					</figure>
+					<form method="post" th:action="@{/employees/{id}/projects(id=${employee.empId})}"
+						th:if="${!#lists.isEmpty(otherProjects)}">
+						<div class="fields">
+							<label>Join project
+								<select name="projectId" required>
+									<option th:each="p : ${otherProjects}" th:value="${p.projectId}"
+										th:text="${p.name}">Project</option>
+								</select>
+							</label>
+							<button type="submit">Join</button>
+						</div>
+					</form>
+				</article>
+			</div>
+		</div>
+	</main>
+	<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 package sg.edu.iss.demo.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,6 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -36,10 +38,60 @@ public class Employee {
 	private EmploymentType empType;
 	@Enumerated(EnumType.STRING)
 	private Department department;
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	// Owner. 
+	//No cascade, so deleting an employee does not delete the cubicle.
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "cubicle_id", unique = true)
 	private Cubicle cubicle;
+
+	// Inverse side of Gadget
 	@OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
-	private List<Gadget> gadgets;
+	private List<Gadget> gadgets = new ArrayList<>();
+
+	// Owner.
 	@ManyToMany(fetch = FetchType.LAZY)
-	private List<Project> projects;
+	@JoinTable(name = "employee_project",
+			joinColumns = @JoinColumn(name = "emp_id"),
+			inverseJoinColumns = @JoinColumn(name = "project_id"))
+	private List<Project> projects = new ArrayList<>();
+
+	// ---------- helpers that keep both sides in sync ----------
+
+	public void assignCubicle(Cubicle newCubicle) {
+		if (this.cubicle != null) {
+			this.cubicle.setEmployee(null);
+		}
+		this.cubicle = newCubicle;
+		if (newCubicle != null) {
+			newCubicle.setEmployee(this);
+		}
+	}
+
+	public void addGadget(Gadget gadget) {
+		Employee previous = gadget.getEmployee();
+		if (previous != null && previous != this) {
+			previous.getGadgets().remove(gadget);
+		}
+		gadget.setEmployee(this);
+		if (!gadgets.contains(gadget)) {
+			gadgets.add(gadget);
+		}
+	}
+
+	public void removeGadget(Gadget gadget) {
+		gadgets.remove(gadget);
+		gadget.setEmployee(null);
+	}
+
+	public void joinProject(Project project) {
+		if (!projects.contains(project)) {
+			projects.add(project);
+			project.getEmployees().add(this);
+		}
+	}
+
+	public void leaveProject(Project project) {
+		projects.remove(project);
+		project.getEmployees().remove(this);
+	}
 }

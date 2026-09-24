@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head(${cubicle.cubicleId == null} ? 'New Cubicle' : 'Edit Cubicle')}"></head>
+
+<body>
+	<header th:replace="~{fragments :: header('cubicles')}"></header>
+	<main>
+		<p><a th:href="@{/cubicles}">Cubicles</a></p>
+		<h1 th:text="${cubicle.cubicleId == null} ? 'New Cubicle' : 'Edit ' + ${cubicle.name}">New cubicle</h1>
+		<form method="post" th:object="${cubicle}"
+			th:action="${cubicle.cubicleId == null} ? @{/cubicles/new} : @{/cubicles/{id}/edit(id=${cubicle.cubicleId})}">
+			<fieldset>
+				<legend>Cubicle</legend>
+				<label for="name">Name *</label>
+				<input th:field="*{name}" placeholder="C-401">
+				<mark th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></mark>
+
+				<label for="location">Location</label>
+				<input th:field="*{location}" placeholder="Level 4, Block D">
+
+				<label for="description">Description</label>
+				<textarea th:field="*{description}" rows="3"></textarea>
+				<p><small>Occupants are assigned from the cubicle list or the employee page.</small></p>
+			</fieldset>
+			<button type="submit">Save</button>
+			<a th:href="@{/cubicles}">Cancel</a>
+		</form>
+	</main>
+	<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+
+</html>

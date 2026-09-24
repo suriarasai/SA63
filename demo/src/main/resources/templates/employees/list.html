@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments :: head('Employees')}"></head>
+<body>
+<header th:replace="~{fragments :: header('employees')}"></header>
+<main>
+	<th:block th:replace="~{fragments :: messages}"></th:block>
+	<h1>Employees</h1>
+	<p><a class="button" th:href="@{/employees/new}">+ New employee</a></p>
+
+	<details th:open="${(name != null and name != '') or dept != null or type != null}">
+		<summary>Search and filter</summary>
+		<form method="get" th:action="@{/employees}">
+			<div class="fields">
+				<label>Name
+					<input name="name" th:value="${name}" placeholder="e.g. Alice">
+				</label>
+				<label>Department
+					<select name="dept">
+						<option value="">All</option>
+						<option th:each="d : ${departments}" th:value="${d}" th:text="${d}" th:selected="${d == dept}"></option>
+					</select>
+				</label>
+				<label>Type
+					<select name="type">
+						<option value="">All</option>
+						<option th:each="t : ${employmentTypes}" th:value="${t}" th:text="${t}" th:selected="${t == type}"></option>
+					</select>
+				</label>
+				<button type="submit">Filter</button>
+			</div>
+			<a th:href="@{/employees}">Clear filters</a>
+		</form>
+	</details>
+
+	<figure>
+		<table>
+			<caption th:text="'Showing ' + ${#lists.size(employees)}">Showing 6</caption>
+			<thead>
+			<tr>
+				<th>ID</th><th>Name</th><th>Title</th><th>Department</th><th>Type</th>
+				<th>Cubicle </th>
+				<th>Gadgets </th>
+				<th>Projects </th>
+				<th>Actions</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="e : ${employees}">
+				<td th:text="${e.empId}">1</td>
+				<td><a th:href="@{/employees/{id}(id=${e.empId})}" th:text="${e.name}">Dilbert</a></td>
+				<td th:text="${e.title}">software engineer</td>
+				<td th:text="${e.department}">PRODUCT</td>
+				<td th:text="${e.empType}">PERMEMPLOYEE</td>
+				<td th:text="${e.cubicle != null} ? ${e.cubicle.name} : '—'">C-101</td>
+				<td th:text="${#lists.size(e.gadgets)}">3</td>
+				<td th:text="${#lists.size(e.projects)}">2</td>
+				<td>
+					<a th:href="@{/employees/{id}(id=${e.empId})}">View</a> ·
+					<a th:href="@{/employees/{id}/edit(id=${e.empId})}">Edit</a> ·
+					<form class="inline" method="post" th:action="@{/employees/{id}/delete(id=${e.empId})}"
+						  onsubmit="return confirm('Delete this employee? Their cubicle and gadgets will be freed.')">
+						<button type="submit">Delete</button>
+					</form>
+				</td>
+			</tr>
+			<tr th:if="${#lists.isEmpty(employees)}"><td colspan="9">No employees match.</td></tr>
+			</tbody>
+		</table>
+	</figure>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

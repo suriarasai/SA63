@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head(title)">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title th:text="${title}">User</title>
+	<link rel="stylesheet" th:href="@{/css/simple.css}">
+</head>
+
+<body>
+
+	<!-- simple.css styles "body > header" as the full-width banner and "header nav a[aria-current]" as the active tab -->
+	<header th:fragment="header(active)">
+		<nav>
+			<ul>
+				<li><a th:href="@{/}" th:aria-current="${active == 'home'} ? 'page'">Home</a></li>
+				<li><a th:href="@{/employees}" th:aria-current="${active == 'employees'} ? 'page'">Employees</a></li>
+				<li><a th:href="@{/cubicles}" th:aria-current="${active == 'cubicles'} ? 'page'">Cubicles</a></li>
+				<li><a th:href="@{/projects}" th:aria-current="${active == 'projects'} ? 'page'">Projects</a></li>
+				<li><a th:href="@{/gadgets}" th:aria-current="${active == 'gadgets'} ? 'page'">Gadgets</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<th:block th:fragment="messages">
+		<p class="notice" th:if="${msg}" th:text="${msg}">Saved</p>
+		<p class="notice" th:if="${error}"><mark th:text="${error}">Something went wrong</mark></p>
+	</th:block>
+
+	<footer th:fragment="footer">
+		<p>SA63 mapping demo </p>
+	</footer>
+
+</body>
+
+</html>

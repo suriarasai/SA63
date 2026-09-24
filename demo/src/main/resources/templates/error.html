@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Error')}"></head>
+<body>
+<header th:replace="~{fragments :: header('')}"></header>
+<main>
+	<h1 th:text="${status} + ' · ' + ${error}">404 Page Not Found</h1>
+	<p class="notice" th:text="${message}">The page could not be found.</p>
+	<p><a class="button" th:href="@{/}">Back to home</a></p>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

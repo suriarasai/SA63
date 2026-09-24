@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments :: head(${project.name})}"></head>
+<body>
+<header th:replace="~{fragments :: header('projects')}"></header>
+<main>
+	<th:block th:replace="~{fragments :: messages}"></th:block>
+	<p><a th:href="@{/projects}">Projects</a></p>
+	<h1 th:text="${project.name} + ' #' + ${project.projectId}">Gruntmaster 6000 #1</h1>
+	<div>
+		<a class="button" th:href="@{/projects/{id}/edit(id=${project.projectId})}">Edit</a>
+		<form class="inline" method="post" th:action="@{/projects/{id}/delete(id=${project.projectId})}"
+			  onsubmit="return confirm('Delete this project? Members will be removed from it.')">
+			<button type="submit">Delete</button>
+		</form>
+	</div>
+
+	<div class="split">
+		<article>
+			<h3>Details</h3>
+			<dl>
+				<dt>Department</dt><dd th:text="${project.department} ?: '—'">PRODUCT</dd>
+				<dt>Budget</dt><dd th:text="${project.budget != null} ? ${#numbers.formatDecimal(project.budget, 1, 'COMMA', 2, 'POINT')} : '—'">250,000.00</dd>
+				<dt>Team size</dt><dd th:text="${#lists.size(project.employees)}">3</dd>
+			</dl>
+		</article>
+
+		<!-- inverse side of N:M: changes are written through Employee.projects -->
+		<article>
+			<h3>Team members</h3>
+			<figure>
+				<table>
+					<thead><tr><th>ID</th><th>Name</th><th>Title</th><th>Department</th><th></th></tr></thead>
+					<tbody>
+					<tr th:each="e : ${project.employees}">
+						<td th:text="${e.empId}">1</td>
+						<td><a th:href="@{/employees/{id}(id=${e.empId})}" th:text="${e.name}">Dilbert</a></td>
+						<td th:text="${e.title}">software engineer</td>
+						<td th:text="${e.department}">PRODUCT</td>
+						<td>
+							<form class="inline" method="post"
+								  th:action="@{/projects/{id}/members/{eid}/remove(id=${project.projectId},eid=${e.empId})}">
+								<button type="submit">Remove</button>
+							</form>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(project.employees)}"><td colspan="5">No members yet.</td></tr>
+					</tbody>
+				</table>
+			</figure>
+			<form method="post" th:action="@{/projects/{id}/members(id=${project.projectId})}"
+				  th:if="${!#lists.isEmpty(nonMembers)}">
+				<div class="fields">
+					<label>Add member
+						<select name="empId" required>
+							<option th:each="e : ${nonMembers}" th:value="${e.empId}" th:text="${e.name}">Wally</option>
+						</select>
+					</label>
+					<button type="submit">Add</button>
+				</div>
+			</form>
+			<p><small>Adding here also updates the employee's project list.</small></p>
+		</article>
+	</div>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

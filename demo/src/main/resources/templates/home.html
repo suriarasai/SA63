@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments :: head('Home')}"></head>
+<body>
+<header th:replace="~{fragments :: header('home')}"></header>
+<main>
+	<h1>Overview</h1>
+	<figure>
+		<table>
+			<thead><tr><th>Area</th><th>Total</th><th>Status</th><th></th></tr></thead>
+			<tbody>
+			<tr><td>Employees</td><td th:text="${employeeCount}">6</td>
+				<td th:text="${employeesWithoutCubicle} + ' without a cubicle'">2 without a cubicle</td>
+				<td><a th:href="@{/employees}">Open</a></td></tr>
+			<tr><td>Cubicles</td><td th:text="${cubicleCount}">5</td>
+				<td th:text="${freeCubicles} + ' free'">1 free</td>
+				<td><a th:href="@{/cubicles}">Open</a></td></tr>
+			<tr><td>Projects</td><td th:text="${projectCount}">4</td>
+				<td th:text="${projectsWithoutMembers} + ' with no members'">1 with no members</td>
+				<td><a th:href="@{/projects}">Open</a></td></tr>
+			<tr><td>Gadgets</td><td th:text="${gadgetCount}">10</td>
+				<td th:text="${unassignedGadgets} + ' unassigned'">0 unassigned</td>
+				<td><a th:href="@{/gadgets}">Open</a></td></tr>
+			</tbody>
+		</table>
+	</figure>
+
+	<h3>Quick actions</h3>
+	<p>
+		<a class="button" th:href="@{/employees/new}">+ New employee</a>
+		<a class="button" th:href="@{/cubicles(filter='free')}">Assign a free cubicle</a>
+		<a class="button" th:href="@{/projects}">Add members to a project</a>
+		<a class="button" th:href="@{/gadgets}">Issue a gadget</a>
+	</p>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>

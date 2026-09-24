@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head('Cubicles')}"></head>
+
+<body>
+	<header th:replace="~{fragments :: header('cubicles')}"></header>
+	<main>
+		<th:block th:replace="~{fragments :: messages}"></th:block>
+		<h1>Cubicles</h1>
+		<p><a class="button" th:href="@{/cubicles/new}">+ New cubicle</a></p>
+
+		<p>Show:
+			<a th:href="@{/cubicles(filter='all')}" th:aria-current="${filter == 'all'} ? 'true'"
+				th:text="'All (' + ${total} + ')'">All (n)</a> ·
+			<a th:href="@{/cubicles(filter='occupied')}" th:aria-current="${filter == 'occupied'} ? 'true'"
+				th:text="'Occupied (' + ${occupied} + ')'">Occupied (4)</a> ·
+			<a th:href="@{/cubicles(filter='free')}" th:aria-current="${filter == 'free'} ? 'true'"
+				th:text="'Free (' + ${free} + ')'">Free (m)</a>
+		</p>
+
+		<figure>
+			<table>
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Location</th>
+						<th>Description</th>
+						<th>Occupant</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="c : ${cubicles}">
+						<td th:text="${c.cubicleId}">1</td>
+						<td th:text="${c.name}">C-101</td>
+						<td th:text="${c.location}">Level 1, Block A</td>
+						<td th:text="${c.description}">Window seat</td>
+						<td>
+							<a th:if="${!c.free}" th:href="@{/employees/{id}(id=${c.employee.empId})}"
+								th:text="${c.employee.name}">Dilbert</a>
+							<span th:if="${c.free}">---free---</span>
+						</td>
+						<td>
+							<form th:if="${!c.free}" class="inline" method="post"
+								th:action="@{/cubicles/{id}/vacate(id=${c.cubicleId})}">
+								<button type="submit">Vacate</button>
+							</form>
+							<form th:if="${c.free and !#lists.isEmpty(unseated)}" class="inline" method="post"
+								th:action="@{/cubicles/{id}/assign(id=${c.cubicleId})}">
+								<select name="empId" aria-label="Employee to assign" required>
+									<option th:each="e : ${unseated}" th:value="${e.empId}" th:text="${e.name}">Asok
+									</option>
+								</select>
+								<button type="submit">Assign</button>
+							</form>
+							<a th:href="@{/cubicles/{id}/edit(id=${c.cubicleId})}">Edit</a>
+							<form th:if="${c.free}" class="inline" method="post"
+								th:action="@{/cubicles/{id}/delete(id=${c.cubicleId})}"
+								onsubmit="return confirm('Delete this cubicle?')">
+								<button type="submit">Delete</button>
+							</form>
+						</td>
+					</tr>
+					<tr th:if="${#lists.isEmpty(cubicles)}">
+						<td colspan="6">No cubicles.</td>
+					</tr>
+				</tbody>
+			</table>
+			<code>Assign lists only employees without a cubicle. A cubicle can be deleted only when it is free.
+			</code>
+		</figure>
+	</main>
+	<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+
+</html>

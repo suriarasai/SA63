@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head(${project.projectId == null} ? 'New project' : 'Edit project')}"></head>
+<body>
+<header th:replace="~{fragments :: header('projects')}"></header>
+<main>
+	<p><a th:href="@{/projects}">Projects</a></p>
+	<h1 th:text="${project.projectId == null} ? 'New project' : 'Edit ' + ${project.name}">New project</h1>
+	<form method="post" th:object="${project}"
+		  th:action="${project.projectId == null} ? @{/projects/new} : @{/projects/{id}/edit(id=${project.projectId})}">
+		<fieldset>
+			<legend>Project</legend>
+			<label for="name">Name *</label>
+			<input th:field="*{name}">
+			<mark th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></mark>
+
+			<label for="department">Department</label>
+			<select th:field="*{department}">
+				<option value="">--- choose ---</option>
+				<option th:each="d : ${departments}" th:value="${d}" th:text="${d}"></option>
+			</select>
+
+			<label for="budget">Budget</label>
+			<input th:field="*{budget}" inputmode="decimal" placeholder="0.00">
+			<mark th:if="${#fields.hasErrors('budget')}" th:errors="*{budget}"></mark>
+			<p><small>Team members are managed on the project page.</small></p>
+		</fieldset>
+		<button type="submit">Save</button>
+		<a th:href="${project.projectId == null} ? @{/projects} : @{/projects/{id}(id=${project.projectId})}">Cancel</a>
+	</form>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>
