@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Register – Choppee</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="page-wrapper">
+    <div class="card">
+        <h1>Create Account</h1>
+
+        <form th:action="@{/register}" th:object="${user}" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username" type="text" th:field="*{username}" required autofocus
+                       placeholder="choose_a_username"/>
+                <span class="field-error" th:if="${#fields.hasErrors('username')}"
+                      th:errors="*{username}">Error</span>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" th:field="*{email}" required
+                       placeholder="you@example.com"/>
+                <span class="field-error" th:if="${#fields.hasErrors('email')}"
+                      th:errors="*{email}">Error</span>
+            </div>
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input id="fullName" type="text" th:field="*{fullName}"
+                       placeholder="Your Full Name"/>
+                <span class="field-error" th:if="${#fields.hasErrors('fullName')}"
+                      th:errors="*{fullName}">Error</span>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" th:field="*{password}" required
+                       placeholder="••••••••"/>
+                <span class="field-error" th:if="${#fields.hasErrors('password')}"
+                      th:errors="*{password}">Error</span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+        </form>
+
+        <p style="margin-top:16px; text-align:center; font-size:0.92rem;">
+            Already have an account? <a th:href="@{/login}">Sign in</a>
+        </p>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

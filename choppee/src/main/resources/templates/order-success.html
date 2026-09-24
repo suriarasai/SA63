@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Order Confirmed – Choppee</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1>&#10003; Order Confirmed!</h1>
+<p>Thank you for your purchase. Your order has been received and is being processed.</p>
+
+<h2>Order Summary</h2>
+<table border="0" cellpadding="4">
+    <tr>
+        <th align="right">Order #</th>
+        <td th:text="${order.id}">0</td>
+    </tr>
+    <tr>
+        <th align="right">Status</th>
+        <td th:text="${order.status}">CONFIRMED</td>
+    </tr>
+    <tr>
+        <th align="right">Date</th>
+        <!-- LocalDateTime demo -->
+        <td th:text="${#temporals.format(order.orderDate,'dd MMM yyyy HH:mm')}">Date</td>
+    </tr>
+    <tr>
+        <th align="right">Ship To</th>
+        <td th:text="${order.shippingAddress}">Address</td>
+    </tr>
+    <tr th:if="${order.notes != null and !order.notes.isEmpty()}">
+        <th align="right">Notes</th>
+        <td th:text="${order.notes}">Notes</td>
+    </tr>
+</table>
+
+<br/>
+<h3>Items Ordered</h3>
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Product</th><th>Unit Price</th><th>Qty</th><th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="item : ${order.items}">
+            <td th:text="${item.product.name}">Product</td>
+            <td th:text="'$' + ${#numbers.formatDecimal(item.unitPrice,1,2)}">$0.00</td>
+            <td th:text="${item.quantity}">1</td>
+            <td th:text="'$' + ${#numbers.formatDecimal(item.subtotal,1,2)}">$0.00</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" align="right"><strong>Total Charged:</strong></td>
+            <td><strong th:text="'$' + ${#numbers.formatDecimal(order.totalAmount,1,2)}">$0.00</strong></td>
+        </tr>
+    </tfoot>
+</table>
+
+<br/>
+<a th:href="@{/orders}">View All My Orders</a>
+&nbsp;|&nbsp;
+<a th:href="@{/products}">Continue Shopping</a>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

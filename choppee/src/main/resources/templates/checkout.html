@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Checkout – Choppee</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1>Checkout</h1>
+
+<!-- Order review -->
+<h2>Order Review</h2>
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Product</th><th>Unit Price</th><th>Qty</th><th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="item : ${cart.items}">
+            <td th:text="${item.product.name}">Product</td>
+            <td th:text="'$' + ${#numbers.formatDecimal(item.product.effectivePrice,1,2)}">$0.00</td>
+            <td th:text="${item.quantity}">1</td>
+            <td th:text="'$' + ${#numbers.formatDecimal(item.subtotal,1,2)}">$0.00</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" align="right"><strong>Total to be charged:</strong></td>
+            <td><strong th:text="'$' + ${#numbers.formatDecimal(cart.total,1,2)}">$0.00</strong></td>
+        </tr>
+    </tfoot>
+</table>
+
+<br/>
+
+<!-- Shipping form -->
+<h2>Shipping Details</h2>
+<form th:action="@{/checkout/place}" method="post">
+    <p>
+        <label for="addr"><strong>Shipping Address *</strong></label><br/>
+        <textarea id="addr" name="shippingAddress" rows="3" cols="50" required
+                  placeholder="Street, City, State ZIP, Country"></textarea>
+    </p>
+    <p>
+        <label for="notes"><strong>Order Notes (optional)</strong></label><br/>
+        <input id="notes" type="text" name="notes" size="50"
+               placeholder="Leave at the door, ring bell, etc."/>
+    </p>
+    <p>
+        <button type="submit">&#10003; Place Order</button>
+        &nbsp;
+        <a th:href="@{/cart}">&larr; Back to Cart</a>
+    </p>
+</form>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

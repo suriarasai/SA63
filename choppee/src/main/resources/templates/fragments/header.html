@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<th:block th:fragment="header">
+
+    <!-- Top Navigation Bar -->
+    <nav class="topbar">
+        <a class="site-title" th:href="@{/}">&#128313; Choppee</a>
+
+        <div style="display:flex; align-items:center; gap:18px; flex-wrap:wrap;">
+
+            <!-- Inline search -->
+            <form th:action="@{/products}" method="get"
+                  style="display:flex; gap:6px; align-items:center;">
+                <input type="text" name="q" placeholder="Search products…"
+                       style="padding:6px 10px; font-size:0.88rem; border-radius:4px;
+                              border:none; width:180px;"/>
+                <button type="submit"
+                        style="padding:6px 12px; background:#2563a8; color:#fff;
+                               border:none; border-radius:4px; cursor:pointer; font-size:0.88rem;">
+                    Search
+                </button>
+            </form>
+
+            <a th:href="@{/products}"          style="color:#c8d8ec; text-decoration:none; font-size:0.92rem;">Shop All</a>
+            <a th:href="@{/products(category=1)}" style="color:#c8d8ec; text-decoration:none; font-size:0.92rem;">Knives</a>
+            <a th:href="@{/products(category=3)}" style="color:#c8d8ec; text-decoration:none; font-size:0.92rem;">Axes</a>
+            <a th:href="@{/cart}"              style="color:#c8d8ec; text-decoration:none; font-size:0.92rem;">
+                &#128722; Cart
+                <span th:if="${cartItemCount > 0}">(<span th:text="${cartItemCount}">0</span>)</span>
+            </a>
+
+            <span th:if="${loggedInUser == null}" class="user-info">
+                <a th:href="@{/login}"    class="logout-link">Login</a>&nbsp;/&nbsp;<a th:href="@{/register}" class="logout-link">Register</a>
+            </span>
+            <span th:if="${loggedInUser != null}" class="user-info">
+                Hello, <strong th:text="${loggedInUser}">User</strong>
+                &nbsp;|&nbsp;<a th:href="@{/orders}" class="logout-link">My Orders</a>
+                &nbsp;|&nbsp;<a th:href="@{/logout}" class="logout-link">Logout</a>
+            </span>
+        </div>
+    </nav>
+
+    <!-- Flash messages (inside page-wrapper so they align) -->
+    <div class="page-wrapper">
+        <div th:if="${success}" class="alert alert-success" th:text="${success}">OK</div>
+        <div th:if="${error}"   class="alert alert-error"   th:text="${error}">Error</div>
+    </div>
+
+</th:block>
+
+</body>
+</html>

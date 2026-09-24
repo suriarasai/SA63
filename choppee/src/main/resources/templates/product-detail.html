@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${product.name} + ' – Choppee'">Product – Choppee</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<!-- Breadcrumb -->
+<p>
+    <a th:href="@{/}">Home</a> &rsaquo;
+    <a th:href="@{/products}">Shop</a> &rsaquo;
+    <a th:href="@{/products(category=${product.category.id})}"
+       th:text="${product.category.name}">Category</a> &rsaquo;
+    <span th:text="${product.name}">Product</span>
+</p>
+
+<h1 th:text="${product.name}">Product Name</h1>
+
+<table border="0" cellpadding="4">
+    <tr>
+        <th align="right">Brand</th>
+        <td th:text="${product.brand}">Brand</td>
+    </tr>
+    <tr>
+        <th align="right">Category</th>
+        <td th:text="${product.category.name}">Category</td>
+    </tr>
+    <tr>
+        <th align="right">Tags</th>
+        <td>
+            <span th:each="tag, stat : ${product.tags}">
+                <span th:text="${tag.name}">tag</span><span th:unless="${stat.last}">, </span>
+            </span>
+            <span th:if="${product.tags.isEmpty()}">—</span>
+        </td>
+    </tr>
+    <tr>
+        <th align="right">Price</th>
+        <td>
+            <strong th:text="'$' + ${#numbers.formatDecimal(product.effectivePrice,1,2)}">$0.00</strong>
+            <span th:if="${product.discountPercent > 0}">
+                &nbsp;<del th:text="'$' + ${#numbers.formatDecimal(product.price,1,2)}">$0.00</del>
+                &nbsp;<strong th:text="${product.discountPercent.intValue()} + '% OFF'">OFF</strong>
+            </span>
+        </td>
+    </tr>
+    <tr>
+        <th align="right">Stock</th>
+        <td>
+            <span th:if="${product.inStock}"
+                  th:text="'In stock – ' + ${product.stockQuantity} + ' units available'">In stock</span>
+            <span th:unless="${product.inStock}"><strong>Out of stock</strong></span>
+        </td>
+    </tr>
+    <tr>
+        <th align="right">Listed</th>
+        <!-- LocalDateTime formatted via Thymeleaf #temporals -->
+        <td th:text="${#temporals.format(product.createdAt, 'dd MMM yyyy HH:mm')}">Date</td>
+    </tr>
+    <tr>
+        <th align="right">Description</th>
+        <td th:text="${product.description}">Description</td>
+    </tr>
+</table>
+
+<br/>
+
+<!-- Add to Cart -->
+<div th:if="${product.inStock}">
+    <form th:action="@{/cart/add}" method="post">
+        <input type="hidden" name="productId" th:value="${product.id}"/>
+        <label for="qty">Quantity:</label>
+        <input id="qty" type="number" name="quantity" value="1" min="1"
+               th:max="${product.stockQuantity}" size="4"/>
+        <button type="submit">&#128722; Add to Cart</button>
+    </form>
+</div>
+<p th:unless="${product.inStock}"><em>This item is currently out of stock. Check back later.</em></p>
+
+<br/>
+<a th:href="@{/products}">&larr; Back to Shop</a>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

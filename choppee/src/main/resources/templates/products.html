@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Shop – Choppee</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1>Shop</h1>
+
+<!-- Category filter links -->
+<p>
+    <strong>Filter:</strong>
+    <a th:href="@{/products}">All</a>
+    <span th:each="cat : ${categories}">
+        &nbsp;|&nbsp;
+        <a th:href="@{/products(category=${cat.id})}" th:text="${cat.name}">Category</a>
+    </span>
+</p>
+
+<!-- Active filter / search info -->
+<p th:if="${activeCategory != null}">
+    Showing: <strong th:text="${activeCategory.name}">Category</strong>
+</p>
+<p th:if="${searchQuery != null}">
+    Search results for: <strong th:text="${searchQuery}">query</strong>
+    &nbsp;&mdash;&nbsp;<a th:href="@{/products}">Clear</a>
+</p>
+
+<p th:text="${products.size()} + ' product(s) found.'">0 products found.</p>
+
+<!-- No results -->
+<p th:if="${products.isEmpty()}">
+    No products found. <a th:href="@{/products}">Browse all &rarr;</a>
+</p>
+
+<!-- Products table -->
+<table border="1" cellpadding="6" cellspacing="0" th:unless="${products.isEmpty()}">
+    <thead>
+        <tr>
+            <th>Name</th><th>Brand</th><th>Category</th>
+            <th>Tags</th><th>Price</th><th>Discount</th>
+            <th>Stock</th><th>Listed</th><th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="p : ${products}">
+            <td><a th:href="@{/products/{id}(id=${p.id})}" th:text="${p.name}">Name</a></td>
+            <td th:text="${p.brand}">Brand</td>
+            <td th:text="${p.category.name}">Category</td>
+            <td>
+                <span th:each="tag, stat : ${p.tags}">
+                    <span th:text="${tag.name}">tag</span><span th:unless="${stat.last}">, </span>
+                </span>
+            </td>
+            <td th:text="'$' + ${#numbers.formatDecimal(p.effectivePrice,1,2)}">$0.00</td>
+            <td>
+                <span th:if="${p.discountPercent > 0}" th:text="${p.discountPercent.intValue()} + '%'">0%</span>
+                <span th:unless="${p.discountPercent > 0}">—</span>
+            </td>
+            <td>
+                <span th:if="${p.inStock}"    th:text="${p.stockQuantity} + ' left'">In stock</span>
+                <span th:unless="${p.inStock}"><em>Out of stock</em></span>
+            </td>
+            <td th:text="${#temporals.format(p.createdAt,'dd MMM yyyy')}">Date</td>
+            <td>
+                <form th:action="@{/cart/add}" method="post" style="display:inline;">
+                    <input type="hidden" name="productId" th:value="${p.id}"/>
+                    <input type="hidden" name="quantity" value="1"/>
+                    <button type="submit" th:disabled="${!p.inStock}">Add to Cart</button>
+                </form>
+                &nbsp;
+                <a th:href="@{/products/{id}(id=${p.id})}">View</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

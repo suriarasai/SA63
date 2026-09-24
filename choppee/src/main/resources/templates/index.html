@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Choppee – Premium Blades &amp; Lumberjack Gear</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="page-wrapper">
+
+    <h1 class="page-heading"> Welcome to Choppee</h1>
+    <p class="sub-text">High-end kitchen knives and lumberjack gear for professionals and enthusiasts.</p>
+
+    <div class="nav-links">
+        <a th:href="@{/products}"><strong>Shop All Products &rarr;</strong></a>
+        <span th:each="cat : ${categories}">
+            <a th:href="@{/products(category=${cat.id})}" th:text="${cat.name}">Category</a>
+        </span>
+    </div>
+
+    <h2>Featured Products</h2>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Name</th><th>Brand</th><th>Category</th>
+                <th>Price</th><th>Discount</th><th>Stock</th><th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="p : ${featured}">
+                <td data-label="Name"><a th:href="@{/products/{id}(id=${p.id})}" th:text="${p.name}">Name</a></td>
+                <td data-label="Brand" th:text="${p.brand}">Brand</td>
+                <td data-label="Category" th:text="${p.category.name}">Category</td>
+                <td data-label="Price" th:text="'$' + ${#numbers.formatDecimal(p.effectivePrice,1,2)}">$0.00</td>
+                <td data-label="Discount">
+                    <span th:if="${p.discountPercent > 0}" th:text="${p.discountPercent.intValue()} + '% OFF'">OFF</span>
+                    <span th:unless="${p.discountPercent > 0}">—</span>
+                </td>
+                <td data-label="Stock" th:text="${p.inStock} ? p.stockQuantity + ' units' : 'Out of stock'">Stock</td>
+                <td data-label="Action">
+                    <form th:action="@{/cart/add}" method="post">
+                        <input type="hidden" name="productId" th:value="${p.id}"/>
+                        <input type="hidden" name="quantity" value="1"/>
+                        <button type="submit" class="btn btn-primary"
+                                th:disabled="${!p.inStock}" style="padding:6px 14px; font-size:0.88rem;">
+                            Add to Cart
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 style="margin-top:32px;"> Current Deals</h2>
+    <p th:if="${deals.isEmpty()}" class="sub-text">No active deals right now. Check back soon!</p>
+    <table class="data-table" th:unless="${deals.isEmpty()}">
+        <thead>
+            <tr>
+                <th>Name</th><th>Original</th><th>Sale Price</th><th>Saving</th><th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="p : ${deals}">
+                <td data-label="Name"><a th:href="@{/products/{id}(id=${p.id})}" th:text="${p.name}">Name</a></td>
+                <td data-label="Original" th:text="'$' + ${#numbers.formatDecimal(p.price,1,2)}">$0.00</td>
+                <td data-label="Sale" th:text="'$' + ${#numbers.formatDecimal(p.effectivePrice,1,2)}">$0.00</td>
+                <td data-label="Saving" th:text="${p.discountPercent.intValue()} + '% OFF'">OFF</td>
+                <td data-label="Action">
+                    <form th:action="@{/cart/add}" method="post">
+                        <input type="hidden" name="productId" th:value="${p.id}"/>
+                        <input type="hidden" name="quantity" value="1"/>
+                        <button type="submit" class="btn btn-primary" style="padding:6px 14px; font-size:0.88rem;">Add to Cart</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div><!-- /.page-wrapper -->
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

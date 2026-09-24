@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>My Orders – Choppee</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h1>My Orders</h1>
+
+<p th:if="${orders.isEmpty()}">
+    You haven't placed any orders yet.
+    <a th:href="@{/products}">Start shopping &rarr;</a>
+</p>
+
+<table border="1" cellpadding="6" cellspacing="0" th:unless="${orders.isEmpty()}">
+    <thead>
+        <tr>
+            <th>Order #</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Delivered</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="o : ${orders}">
+            <td th:text="${o.id}">0</td>
+            <!-- LocalDateTime – order date -->
+            <td th:text="${#temporals.format(o.orderDate,'dd MMM yyyy')}">Date</td>
+            <!-- Enum value displayed as string -->
+            <td th:text="${o.status}">STATUS</td>
+            <td>
+                <span th:each="item, stat : ${o.items}">
+                    <span th:text="${item.product.name} + ' ×' + ${item.quantity}">Item</span>
+                    <span th:unless="${stat.last}">, </span>
+                </span>
+            </td>
+            <td th:text="'$' + ${#numbers.formatDecimal(o.totalAmount,1,2)}">$0.00</td>
+            <!-- LocalDateTime – delivered at (nullable) -->
+            <td>
+                <span th:if="${o.deliveredAt != null}"
+                      th:text="${#temporals.format(o.deliveredAt,'dd MMM yyyy')}">Date</span>
+                <span th:unless="${o.deliveredAt != null}">—</span>
+            </td>
+            <td>
+                <a th:href="@{/orders/{id}(id=${o.id})}">View Details</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

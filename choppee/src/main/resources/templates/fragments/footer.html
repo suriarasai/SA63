@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<footer th:fragment="footer" style="margin-top:48px; border-top:1px solid #d0ccc4; padding-top:20px;">
+    <div class="page-wrapper" style="text-align:center; color:#5a5a5a; font-size:0.88rem;">
+        <p>
+            <strong>&#128313; Choppee</strong> &mdash; Premium blades &amp; lumberjack gear.
+            &nbsp;|&nbsp;
+            <a th:href="@{/products(category=1)}">Chef Knives</a>
+            &nbsp;|&nbsp;
+            <a th:href="@{/products(category=2)}">Hunting Knives</a>
+            &nbsp;|&nbsp;
+            <a th:href="@{/products(category=3)}">Axes &amp; Hatchets</a>
+            &nbsp;|&nbsp;
+            <a th:href="@{/products(category=4)}">Protective Gear</a>
+            &nbsp;|&nbsp;
+            <a href="/h2-console" target="_blank">H2 Console</a>
+        </p>
+        <p>&copy; 2026 Choppee &mdash; Spring Boot 3.x | Spring 6.x | Java 17</p>
+    </div>
+</footer>
+
+</body>
+</html>
